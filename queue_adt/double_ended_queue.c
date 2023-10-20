@@ -112,7 +112,7 @@ void enQueueRear(int value) {
     } while (ch == 'Y');
 }
 
-void enQueueFont(int value) {
+void enQueueFront(int value) {
     char ch;
     if (front == SIZE / 2) {
         printf("\nQueue is full!!! Insertion is not possible!!!");
