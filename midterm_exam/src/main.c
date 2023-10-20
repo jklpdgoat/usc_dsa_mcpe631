@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   } else {
     int n = atoi(argv[1]);
     int prime = isPrime(n);
-    printf("isPrime(%d) = (%d)", n, prime);
+    printf("isPrime(%d) = (%d)\n", n, prime);
 
     return 0;
   }

@@ -35,20 +35,22 @@ LDIR =../lib
 
 LIBS=-lm
 
-_DEPS = dll_ops.h
+_DEPS = primes.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = dll_ops.o dll_ops_impl.o 
+# main.c primes_impl.c
+_OBJ = main.o primes_impl.o 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-dll_ops: $(OBJ)
+a.out: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 
 clean:
 	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ 
+	rm -f *.out
