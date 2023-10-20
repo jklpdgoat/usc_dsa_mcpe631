@@ -35,11 +35,11 @@ LDIR =../lib
 
 LIBS=-lm
 
-_DEPS = primes.h
+_DEPS = ds.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 # main.c primes_impl.c
-_OBJ = main.o primes_impl.o 
+_OBJ = main.o ds_impl.o 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

@@ -1,16 +1,38 @@
+#include "../include/calc.h"
+#include "../include/ds.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/primes.h"
 
-int main(int argc, char *argv[]) {
-  if (argc < 2) {
-    printf("Error: must provide a single integer value to test\n");
-    return 1;
-  } else {
-    int n = atoi(argv[1]);
-    int prime = isPrime(n);
-    printf("isPrime(%d) = (%d)\n", n, prime);
+int main()
+{
+    const int SIZE = 10; /* queue's size */
+    int head, tail, element;
+    int queue[SIZE];
 
+    init(&head,&tail);
+
+    printf("--Enqueue elements--\n");
+    /* push elements into stack */
+    while(!full(tail,SIZE))
+    {
+        printf("Enter a number to enqueue:");
+        scanf("%d",&element);
+
+        enQueue(queue,&tail,element);
+
+        display(queue,head,tail);
+    }
+    printf("Queue is full\n\n");
+
+    printf("--Dequeue elements --\n");
+    while(!empty(head,tail))
+    {
+        element = deQueue(queue,&head);
+        printf("dequeue element %d \n",element);
+
+        display(queue,head,tail);
+    }
+    printf("Queue is empty\n");
     return 0;
-  }
+  
 }
