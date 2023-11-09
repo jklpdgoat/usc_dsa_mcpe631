@@ -23,23 +23,22 @@
 # baseline compiler flags
 
 # header files
-IDIR =../include
-CC=clang
-CFLAGS=-I$(IDIR) -g3 -Wall
-	 # -Wextra -Wconversion -Wdouble-promotion \
-  #    -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion \
-  #    -fsanitize=undefined -fsanitize-trap
+IDIR = ../include
+CC = clang
+CFLAGS += -I$(IDIR) -g3 -Wall
+CFLAGS += -Wextra -Wconversion -Wdouble-promotion
+CFLAGS += -Wno-unused-parameter -Wno-unused-function -Wno-sign-conversion
+CFLAGS += -fsanitize=undefined -fsanitize-trap
 
 ODIR=obj
 LDIR =../lib
 
-LIBS=-lm
+LIBS=
 
-_DEPS = ds.h
+_DEPS = queues.h customer.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-# main.c primes_impl.c
-_OBJ = main.o ds_impl.o 
+_OBJ = main.o queues.o customer.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

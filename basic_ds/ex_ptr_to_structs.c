@@ -3,7 +3,7 @@
 int main() {
     struct point {
         double x;
-        double y;      
+        double y;
     };
 
     struct point pt, *pp;

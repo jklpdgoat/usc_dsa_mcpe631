@@ -21,7 +21,7 @@ void main() {
         }
     }
 
-    if (counter > ((m *n) / 2)) {
+    if (counter > ((m * n) / 2)) {
         printf("The given matrix is sparse matrix \n");
     }
 

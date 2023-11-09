@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <curses.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 void insertAtBeginning(int);
@@ -13,63 +13,80 @@ void removeSpecific(int);
 struct Node {
     int data;
     struct Node *next;
-}*head = NULL;
+} *head = NULL;
 
 void main() {
     int choice, value, choice1, loc1, loc2;
     system("clear");
     while (1) {
-        mainMenu: printf("\n\n****** MENU ******\n1. Insert\n2. Display\n3. Delete\n4. Exit\nEnter your choice: ");
+    mainMenu:
+        printf("\n\n****** MENU ******\n1. Insert\n2. Display\n3. Delete\n4. "
+               "Exit\nEnter your choice: ");
         scanf("%d", &choice);
         switch (choice) {
-            case 1: printf("Enter the value to be insert: ");
-                    scanf("%d", &value);
-                    while (1) {
-                        printf("Where you want to insert: \n1. At Beginning\n2. At End\n3. Between\nEnter your choice: ");
-                        scanf("%d", &choice1);
-                        switch (choice1) { 
-                            case 1:     insertAtBeginning(value);
-                                        break;
-                            case 2:     insertAtEnd(value);
-                                        break;
-                            case 3:     printf("Enter the two values where you want to insert: ");
-                                        scanf("%d%d", &loc1, &loc2);    
-                                        break;    
-                            default:    printf("\nWrong Input!! Try again!!\n\n");
-                                        goto mainMenu;
-                        }
-                        goto subMenuEnd;
-                    }
-                    subMenuEnd:
+        case 1:
+            printf("Enter the value to be insert: ");
+            scanf("%d", &value);
+            while (1) {
+                printf("Where you want to insert: \n1. At Beginning\n2. At "
+                       "End\n3. Between\nEnter your choice: ");
+                scanf("%d", &choice1);
+                switch (choice1) {
+                case 1:
+                    insertAtBeginning(value);
                     break;
-            case 2: display();
+                case 2:
+                    insertAtEnd(value);
                     break;
-            case 3: printf("How do you want to Delete: \n1. From Beginning\n2. From End\n3. Spesific\nEnter your choice: ");
-                    scanf("%d", &choice1);
-                    switch(choice1) {
-                        case 1:     removeBeginning();
-                                    break;
-                        case 2:     removeEnd();
-                                    break;
-                        case 3:     printf("Enter the value which you want to delete: ");
-                                    scanf("%d", &loc2);
-                                    removeSpecific(loc2);
-                                    break;
-                        default:    printf("\nWrong Input!! Try again!!!\n\n");
-                                    goto mainMenu;
-                    }
+                case 3:
+                    printf("Enter the two values where you want to insert: ");
+                    scanf("%d%d", &loc1, &loc2);
                     break;
-            case 4: exit(0);
-            default: printf("\nWrong input!!! Try again!!!\n\n");
+                default:
+                    printf("\nWrong Input!! Try again!!\n\n");
+                    goto mainMenu;
+                }
+                goto subMenuEnd;
+            }
+        subMenuEnd:
+            break;
+        case 2:
+            display();
+            break;
+        case 3:
+            printf("How do you want to Delete: \n1. From Beginning\n2. From "
+                   "End\n3. Spesific\nEnter your choice: ");
+            scanf("%d", &choice1);
+            switch (choice1) {
+            case 1:
+                removeBeginning();
+                break;
+            case 2:
+                removeEnd();
+                break;
+            case 3:
+                printf("Enter the value which you want to delete: ");
+                scanf("%d", &loc2);
+                removeSpecific(loc2);
+                break;
+            default:
+                printf("\nWrong Input!! Try again!!!\n\n");
+                goto mainMenu;
+            }
+            break;
+        case 4:
+            exit(0);
+        default:
+            printf("\nWrong input!!! Try again!!!\n\n");
         }
     }
 }
 
 void insertAtBeginning(int value) {
     struct Node *newNode;
-    newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data = value;
-    if (head == NULL ) {
+    if (head == NULL) {
         newNode->next = NULL;
         head = newNode;
     } else {
@@ -81,7 +98,7 @@ void insertAtBeginning(int value) {
 
 void insertAtEnd(int value) {
     struct Node *newNode;
-    newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data = value;
     newNode->next = NULL;
     if (head == NULL)
@@ -97,7 +114,7 @@ void insertAtEnd(int value) {
 
 void insertBetween(int value, int loc1, int loc2) {
     struct Node *newNode;
-    newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data = value;
     if (head == NULL) {
         newNode->next = NULL;
@@ -160,7 +177,7 @@ void removeSpecific(int delValue) {
     temp2->next = temp1->next;
     free(temp1);
     printf("\nOne node deleted!!!\n\n");
-    functionEnd:
+functionEnd:
 }
 
 void display() {

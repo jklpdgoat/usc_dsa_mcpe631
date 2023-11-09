@@ -1,13 +1,13 @@
 #include <ncurses.h>
 
 int main() {
-  WINDOW *w;
-  char c;
+    WINDOW *w;
+    char c;
 
-  w = initscr();
-  timeout(3000);
-  c = getch();
-  endwin();
+    w = initscr();
+    timeout(3000);
+    c = getch();
+    endwin();
 
-  printf("received\t %c\t (%d)\n", c, (int) c);
+    printf("received\t %c\t (%d)\n", c, (int)c);
 }
