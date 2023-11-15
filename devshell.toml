@@ -8,4 +8,6 @@ packages = [
   "gcc13",
   "gdb",
   "clang-tools",
+  "doxygen",
+  "SDL2",
 ]

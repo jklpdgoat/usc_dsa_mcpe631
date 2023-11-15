@@ -1,0 +1,175 @@
+\doxysection{map.\+c}
+\hypertarget{map_8c_source}{}\label{map_8c_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}map.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keywordtype}{int}\ t\_mapInit(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ \textcolor{keywordtype}{size\_t}\ value\_size,\ \textcolor{keywordtype}{size\_t}\ init\_count)\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\ ==\ NULL)\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00010\ \ \ \ \ \}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordflow}{if}\ (value\_size\ <=\ 0)\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/10;}
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordflow}{if}\ (init\_count\ <=\ 0)\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/11;}
+\DoxyCodeLine{00016\ \ \ \ \ \}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordflow}{if}\ (m-\/>data\ !=\ NULL)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/20;}
+\DoxyCodeLine{00019\ \ \ \ \ \}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ m-\/>node\_size\ =\ value\_size\ +\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00022\ \ \ \ \ m-\/>count\ =\ init\_count;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\ =\ m-\/>node\_size\ *\ m-\/>count;}
+\DoxyCodeLine{00024\ \ \ \ \ m-\/>data\ =\ malloc(total);}
+\DoxyCodeLine{00025\ \ \ \ \ memset(m-\/>data,\ 0,\ total);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ t\_mapCleanup(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\ ==\ NULL)\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{if}\ (m-\/>data\ ==\ NULL)\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/2;}
+\DoxyCodeLine{00036\ \ \ \ \ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ free(m-\/>data);}
+\DoxyCodeLine{00039\ \ \ \ \ m-\/>node\_size\ =\ 0;}
+\DoxyCodeLine{00040\ \ \ \ \ m-\/>count\ =\ 0;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00043\ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{void}\ *t\_MapGet(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\ ==\ NULL\ ||\ m-\/>data\ ==\ NULL\ ||\ key\ <=\ 0)\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ *value\ =\ NULL;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ ns\ =\ m-\/>node\_size;}
+\DoxyCodeLine{00052\ \ \ \ \ uint8\_t\ *data\ =\ m-\/>data;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ m-\/>count;\ i++)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ uint32\_t\ k\ =\ *(uint32\_t\ *)(data\ +\ i\ *\ ns);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (k\ ==\ key)\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ data\ +\ (i\ *\ ns)\ +\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ value;}
+\DoxyCodeLine{00063\ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ *t\_mapGetIndex(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ \textcolor{keywordtype}{size\_t}\ idx,\ uint32\_t\ *key)\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\ ==\ NULL\ ||\ m-\/>data\ ==\ NULL)\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{if}\ (idx\ <\ 0\ ||\ idx\ >=\ m-\/>count)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ uint8\_t\ *place\ =\ NULL;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{if}\ (idx\ <\ m-\/>count)\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ uint8\_t\ *loc;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ loc\ =\ m-\/>data\ +\ idx\ *\ m-\/>node\_size;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ !=\ NULL)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ *key\ =\ *(uint32\_t\ *)loc;}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ place\ =\ loc\ +\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{return}\ place;}
+\DoxyCodeLine{00084\ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keywordtype}{int}\ t\_mapAdd(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key,\ \textcolor{keywordtype}{void}\ *\textcolor{keywordtype}{object})\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\ ==\ NULL)\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (m-\/>data\ ==\ NULL)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/2;}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ 0)\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/3;}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{object}\ ==\ NULL)\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/4;}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ uint8\_t\ *place\ =\ NULL;}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ ns\ =\ m-\/>node\_size;}
+\DoxyCodeLine{00102\ \ \ \ \ uint8\_t\ *data\ =\ m-\/>data;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ m-\/>count;\ i++)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ uint32\_t\ k\ =\ *(uint32\_t\ *)(data\ +\ (i\ *\ ns));}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (k\ ==\ 0)\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ place\ =\ data\ +\ (i\ *\ ns)\ +\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{if}\ (place\ ==\ NULL)\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ resize}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\ =\ m-\/>node\_size\ *\ m-\/>count\ *\ 2;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ m-\/>data\ =\ realloc(m-\/>data,\ total);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ memset(m-\/>data\ +\ total\ /\ 2,\ 0,\ total\ /\ 2);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ m-\/>count\ =\ m-\/>count\ *\ 2;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ place\ =\ m-\/>data\ +\ total\ /\ 2\ +\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00119\ \ \ \ \ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ *(uint32\_t\ *)(place\ -\/\ \textcolor{keyword}{sizeof}(uint32\_t))\ =\ key;}
+\DoxyCodeLine{00122\ \ \ \ \ memcpy(place,\ \textcolor{keywordtype}{object},\ m-\/>node\_size\ -\/\ \textcolor{keyword}{sizeof}(uint32\_t));}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00125\ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{keywordtype}{int}\ t\_mapSet(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key,\ \textcolor{keywordtype}{void}\ *\textcolor{keywordtype}{object})\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\ ==\ NULL)\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{if}\ (m-\/>data\ ==\ NULL)\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/2;}
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ 9)\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/3;}
+\DoxyCodeLine{00136\ \ \ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{object}\ ==\ NULL)\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/4;}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ uint8\_t\ *place\ =\ t\_mapGet(m,\ key);}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (place\ ==\ NULL)\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ t\_mapAdd(m,\ key,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{00144\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ *(uint32\_t\ *)(place\ -\/\ \textcolor{keyword}{sizeof}(uint32\_t))\ =\ key;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ memcpy(place,\ \textcolor{keywordtype}{object},\ m-\/>node\_size\ -\/\ \textcolor{keyword}{sizeof}(uint32\_t));}
+\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00150\ \}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{keywordtype}{int}\ t\_mapDel(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key)\ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\ ==\ NULL)\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{if}\ (m-\/>data\ ==\ NULL)\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/2;}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ 0)\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/3;}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ uint8\_t\ *place\ =\ t\_mapGet(m,\ key);}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordflow}{if}\ (place\ !=\ NULL)\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ *(uint32\_t\ *)(place\ -\/\ \textcolor{keyword}{sizeof}(uint32\_t))\ =\ (uint32\_t)0;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ memset(place,\ 0,\ m-\/>node\_size\ -\/\ \textcolor{keyword}{sizeof}(uint32\_t));}
+\DoxyCodeLine{00167\ \ \ \ \ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00170\ \}}
+
+\end{DoxyCode}

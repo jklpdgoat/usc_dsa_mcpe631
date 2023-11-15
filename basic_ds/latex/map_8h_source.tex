@@ -1,0 +1,26 @@
+\doxysection{map.\+h}
+\hypertarget{map_8h_source}{}\label{map_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MAP\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MAP\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structt__Map}{t\_Map}}\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ count;}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ node\_size;}
+\DoxyCodeLine{00010\ \ \ \ \ uint8\_t\ *data;}
+\DoxyCodeLine{00011\ \}\ \mbox{\hyperlink{structt__Map}{t\_Map}};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{int}\ t\_mapInit(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ \textcolor{keywordtype}{size\_t}\ value\_size,\ \textcolor{keywordtype}{size\_t}\ init\_count);}
+\DoxyCodeLine{00014\ \textcolor{keywordtype}{int}\ t\_mapCleanup(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m);}
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{void}\ *t\_mapGet(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key);}
+\DoxyCodeLine{00016\ \textcolor{keywordtype}{int}\ t\_mapAdd(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key,\ \textcolor{keywordtype}{void}\ *\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{int}\ t\_mapSet(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key,\ \textcolor{keywordtype}{void}\ *\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{int}\ t\_mapDel(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ uint32\_t\ key);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ *t\_mapGetIndex(\mbox{\hyperlink{structt__Map}{t\_Map}}\ *m,\ \textcolor{keywordtype}{size\_t}\ idx,\ uint32\_t\ *key);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MAP\_H\_INCLUDED}}
+
+\end{DoxyCode}
