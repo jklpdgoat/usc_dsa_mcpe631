@@ -1,23 +1,18 @@
 #include <stdio.h>
 
-#define pi 3.14 // macros definition
+#define pi 3.14           // macros definition
 #define add(a, b) (a + b) // macro definition
 
-#define CUBE(b) b * b * b
+#define CUBE(b) b *b *b
 
-int cube(int a) {
-    return a * a * a;
-}
+int cube(int a) { return a * a * a; }
 
-int number() {
-    return 10;
-}
+int number() { return 10; }
 
 int main() {
     int r = 4, area, circum;
 
     int a = 10, b = 15, result;
-
 
     circum = 2 * pi * r;
 
@@ -38,9 +33,9 @@ int main() {
     printf("Standard C : %d\n", __STDC__);
 
     printf("%d\n", number());
-    
-    printf("%d\n", CUBE(1+2));
-    printf("%d\n", cube(1+2));
-        
+
+    printf("%d\n", CUBE(1 + 2));
+    printf("%d\n", cube(1 + 2));
+
     return 0;
 }

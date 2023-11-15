@@ -1,43 +1,26 @@
-with import <nixpkgs> {};
-clangStdenv.mkDerivation {
-  name = "dev-shell";
+# Use `builtins.getFlake` if available
+if builtins ? getFlake
+then
+  let
+    scheme =
+      if builtins.pathExists ./.git
+      then "git+file"
+      else "path";
+  in
+    (builtins.getFlake "${scheme}://${toString ./.}")
+    .devShells
+    .${builtins.currentSystem}
+    .default
 
-  src = ./.;
-  
-  nativeBuildInputs = [
-    # pkg-config
-    cmake
-    bear
-    # clang 
-
-    clang-tools
- 
-    llvmPackages_latest.lldb
-    llvmPackages_latest.libllvm
-    llvmPackages_latest.libstdcxxClang
-
-    cmake-language-server
-  ];
-  buildInputs = [
-    # sfml
-    # SDL2
-    # SDL2.dev
-    # gtk3
-    # qt5.full
-    pkgconfig
-    cmake-language-server
-    # clang
-    ncurses
-    llvmPackages_latest.libstdcxxClang
-
-    meson
-    ninja
-    # zeromq
-    # zlib
-    # cryptsetup
-    # libglvnd
-
-    nemiver
-    gdb
-  ];
-}
+# Otherwise we'll use the flake-compat shim
+else
+  (import
+    (
+      let lock = builtins.fromJSON (builtins.readFile ./flake.lock); in
+      fetchTarball {
+        url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
+        sha256 = lock.nodes.flake-compat.locked.narHash;
+      }
+    )
+    { src = ./.; }
+  ).shellNix

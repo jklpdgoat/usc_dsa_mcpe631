@@ -2,6 +2,4 @@
 
 // declaring an extern function
 
-extern float get_constant() {
-	return 3.14156;
-}
+extern float get_constant() { return 3.14156; }

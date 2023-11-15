@@ -1,6 +1,6 @@
+#include <stdbool.h>
 #include <stdio.h> // Including the standard input-output header file for functions like printf.
 #include <stdlib.h> // Including the standard library header for functions like malloc and exit.
-#include <stdbool.h>
 #include <string.h>
 
 // A struct representing a customer
@@ -9,7 +9,8 @@ typedef struct {
     struct Customer *next;
 } Customer;
 
-// The queue, front stores the front node of the LL and rear stores the last node of LL
+// The queue, front stores the front node of the LL and rear stores the last
+// node of LL
 typedef struct {
     int size;
     Customer *front, *rear;
@@ -18,7 +19,7 @@ typedef struct {
 // A utility function to create a new linked list node.
 Customer *newCustomerRegular(int);
 Customer *newCustomerRegular(int priority_number) {
-    Customer *temp = (Customer*)malloc(sizeof(Customer));
+    Customer *temp = (Customer *)malloc(sizeof(Customer));
     temp->priority_number = priority_number++;
     temp->next = NULL;
 
@@ -28,7 +29,7 @@ Customer *newCustomerRegular(int priority_number) {
 // A utility function to create an empty queue
 RegularLaneQueue *createQueue();
 RegularLaneQueue *createQueue() {
-    RegularLaneQueue *q = (RegularLaneQueue*)malloc(sizeof(RegularLaneQueue));
+    RegularLaneQueue *q = (RegularLaneQueue *)malloc(sizeof(RegularLaneQueue));
     q->front = q->rear = NULL;
     return q;
 }
@@ -65,7 +66,7 @@ Customer *deQueue(RegularLaneQueue *q) {
     // If front becomes NULL, the change rear also as NULL
     if (q->front == NULL)
         q->rear = NULL;
-    
+
     return temp;
 }
 

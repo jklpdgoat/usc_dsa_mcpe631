@@ -3,7 +3,8 @@
 #include "functions.c"
 
 int main() {
-    printf("%f\n", get_constant());
+    printf("%f\n", get_constant()
+        );
 
     return 0;
 }

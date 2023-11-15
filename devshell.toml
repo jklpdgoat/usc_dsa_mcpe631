@@ -1,0 +1,11 @@
+# https://numtide.github.io/devshell
+[[commands]]
+package = "hello"
+
+[devshell]
+name = "generic-c-dev"
+packages = [
+  "gcc13",
+  "gdb",
+  "clang-tools",
+]
